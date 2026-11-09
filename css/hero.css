@@ -1,0 +1,218 @@
+/* ============================================================
+   Главный экран
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--gradient-night);
+  color: var(--color-milk);
+  padding-block: 8rem 6rem;
+}
+
+/* ---------- Фоновые слои ---------- */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Общий слой: чуть больше героя, чтобы параллакс не открывал зазоров */
+.hero-bg__layer {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --- Градиентный слой --- */
+.hero-bg__gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(201, 182, 228, 0.22),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 75% 80%,
+      rgba(244, 194, 200, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(212, 175, 122, 0.08),
+      transparent 70%
+    );
+}
+
+/* --- Слой нитей --- */
+.threads-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.threads-group {
+  transform-origin: center;
+  animation: threads-drift 26s ease-in-out infinite alternate;
+}
+
+.thread {
+  fill: none;
+  stroke-width: 1.2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: var(--opacity, 0.85);
+  filter: drop-shadow(0 0 6px rgba(232, 200, 138, 0.35));
+  animation: thread-draw 3.5s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s)
+    forwards;
+}
+
+/* --- Слой свечения --- */
+.hero-bg__glow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80vmin;
+  height: 80vmin;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(232, 200, 138, 0.18),
+    transparent 65%
+  );
+  filter: blur(20px);
+  animation: hero-glow-pulse 8s ease-in-out infinite;
+}
+
+/* ---------- Лепестки ---------- */
+.hero-petals {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- Обёртка для fade-out при скролле (JS) ---------- */
+.hero-fade {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ---------- Контент ---------- */
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+
+.hero-kicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 7vw, 5.2rem);
+  line-height: 1.05;
+  font-weight: 300;
+  margin-bottom: var(--space-md);
+  color: var(--color-milk);
+}
+
+.hero-title-line {
+  display: block;
+}
+
+.hero-title-line.accent {
+  font-style: italic;
+  color: var(--color-gold-light);
+  font-weight: 400;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 300;
+  color: rgba(245, 239, 230, 0.82);
+  max-width: 560px;
+  margin: 0 auto var(--space-lg);
+  line-height: 1.6;
+}
+
+/* ---------- Индикатор скролла ---------- */
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  z-index: 2;
+  color: rgba(245, 239, 230, 0.55);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, transparent, var(--color-gold-light));
+  animation: scroll-line 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+
+/* ============================================================
+   Каскадное появление (progressive enhancement)
+   Скрываем только когда JS уже загрузился, иначе — видно сразу
+   ============================================================ */
+
+.js-ready .hero .hero-content > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+.js-ready .hero .hero-content > .hero-kicker {
+  --reveal-delay: 0.15s;
+}
+.js-ready .hero .hero-content > .hero-title {
+  --reveal-delay: 0.4s;
+}
+.js-ready .hero .hero-content > .hero-subtitle {
+  --reveal-delay: 0.85s;
+}
+.js-ready .hero .hero-content > .hero-content__cta {
+  --reveal-delay: 1.15s;
+}
+
+.js-ready .hero.is-revealed .hero-content > * {
+  opacity: 1;
+  transform: translateY(0);
+}

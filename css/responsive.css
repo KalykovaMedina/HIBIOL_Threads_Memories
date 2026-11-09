@@ -1,0 +1,396 @@
+/* ============================================================
+   Адаптивность
+   ============================================================ */
+
+/* --- Планшет / мобильное меню --- */
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 23, 43, 0.97);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--transition),
+      visibility var(--transition);
+    z-index: 90;
+  }
+
+  .nav.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 1.8rem;
+    text-align: center;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+  /* ---- Hero на планшете / мобильном ---- */
+  .hero {
+    padding-block: 7rem 5rem;
+  }
+
+  .threads-svg {
+    opacity: 0.75;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 8.5vw, 3.4rem);
+  }
+}
+
+/* --- Малые экраны --- */
+@media (max-width: 480px) {
+  .hero-kicker {
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+  .hero-scroll {
+    display: none;
+  }
+  .btn {
+    padding: 0.9em 1.8em;
+    font-size: 0.82rem;
+  }
+}
+
+/* --- Большие экраны --- */
+@media (min-width: 1600px) {
+  :root {
+    --container: 1360px;
+  }
+}
+
+/* --- Очень узкие экраны: убираем всё лишнее из Hero --- */
+@media (max-width: 480px) {
+  .hero-kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+  }
+
+  .hero-content {
+    padding-inline: 1rem;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  .threads-svg {
+    opacity: 0.55;
+  }
+}
+
+/* --- Очень большие экраны: даём нитям «воздух» --- */
+@media (min-width: 1600px) {
+  .hero-title {
+    font-size: clamp(3.2rem, 5.5vw, 6rem);
+  }
+}
+
+/* --- Reduce motion: скрываем лепестки, они декоративные --- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-petals {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Адаптивность Этапа 3 (Смысл аниме)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .meaning-grid {
+    grid-template-columns: 1fr; /* Одна колонка на мобильных */
+  }
+
+  .meaning-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .hibiol-canvas {
+    aspect-ratio: 1 / 1; /* Квадратное полотно на мобильных */
+  }
+
+  .hibiol-tooltip {
+    max-width: 220px;
+    font-size: 0.8rem;
+    padding: 0.8rem 1rem;
+  }
+}
+/* ============================================================
+   Адаптивность Этапа 4 (Персонажи)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .characters-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 в ряд на планшетах */
+    gap: 1rem;
+  }
+
+  .modal-content {
+    padding: 2.5rem 1.5rem;
+    max-height: 90vh;
+  }
+
+  .modal-name {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .characters-grid {
+    grid-template-columns: 1fr; /* 1 в ряд на телефонах */
+  }
+
+  .character-image {
+    aspect-ratio: 4 / 3; /* Более горизонтальное фото на мобильных */
+  }
+
+  .character-initial {
+    font-size: 4rem;
+  }
+}
+/* ============================================================
+   Адаптивность Этапа 5 (Галерея)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки на планшетах */
+    grid-auto-rows: 200px;
+  }
+
+  /* Корректируем размеры для асимметрии */
+  .gallery-item--large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-item--wide {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .gallery-item--tall {
+    grid-row: span 2;
+  }
+
+  .lightbox-prev {
+    left: 1rem;
+  }
+  .lightbox-next {
+    right: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: 1fr; /* В одну колонку на телефонах */
+    grid-auto-rows: 250px;
+  }
+
+  /* Сбрасываем асимметрию для мобильных, чтобы не было каши */
+  .gallery-item--large,
+  .gallery-item--wide,
+  .gallery-item--tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  /* Лайтбокс на телефоне */
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    background: rgba(18, 23, 43, 0.7); /* Темнее на мобильных для читаемости */
+  }
+
+  .lightbox-prev {
+    left: 0.5rem;
+  }
+  .lightbox-next {
+    right: 0.5rem;
+  }
+
+  .lightbox-img-wrap .gallery-placeholder {
+    width: 90vw;
+    height: 50vh;
+  }
+}
+/* ============================================================
+   Адаптивность Этапа 6 (Просмотр аниме)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .watch-layout {
+    grid-template-columns: 1fr; /* В одну колонку */
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+
+  .watch-poster-wrap {
+    max-width: 300px;
+    margin-inline: auto;
+  }
+
+  .watch-meta-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки для метаданных */
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .watch-layout {
+    padding: 1rem;
+  }
+
+  .watch-title {
+    font-size: 1.5rem;
+  }
+
+  .player-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .player-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .player-text {
+    font-size: 0.85rem;
+  }
+
+  .player-subtext {
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================================
+   Адаптивность Этапа 7 (Философия)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .philosophy-grid {
+    grid-template-columns: 1fr; /* В одну колонку на планшетах и телефонах */
+    gap: 1.5rem;
+  }
+
+  .philosophy-card {
+    padding: 2rem;
+  }
+
+  .kanji-1 {
+    top: 2%;
+    left: -10%;
+  }
+  .kanji-2 {
+    top: 45%;
+    right: -10%;
+  }
+  .kanji-3 {
+    display: none; /* Убираем один иероглиф, чтобы не перегружать экран */
+  }
+}
+/* ============================================================
+   Адаптивность Этапа 8 (Финал)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .flower-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .promise-user-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .promise-question {
+    font-size: 1.8rem;
+  }
+
+  .promise-input {
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .promise-btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   Финальный адаптив (Этап 9)
+   ============================================================ */
+
+/* --- Маленькие телефоны (360px - 390px) --- */
+@media (max-width: 390px) {
+  .section {
+    padding-block: var(--space-lg);
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .container,
+  .header-inner {
+    width: calc(100% - 1.5rem); /* Чуть больше места по бокам */
+  }
+
+  .btn {
+    padding: 0.8em 1.5em;
+    font-size: 0.75rem;
+  }
+
+  .modal-content {
+    padding: 2rem 1rem;
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    display: none; /* На очень узких экранах свайпов достаточно */
+  }
+}
+
+/* --- Огромные мониторы (1920px и больше) --- */
+@media (min-width: 1920px) {
+  :root {
+    --container: 1440px; /* Расширяем контент */
+  }
+
+  html {
+    font-size: 18px; /* Немного увеличиваем базовый шрифт */
+  }
+}

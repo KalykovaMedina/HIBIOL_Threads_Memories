@@ -1,0 +1,175 @@
+/* ============================================================
+   Keyframes + доступность
+   ============================================================ */
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  40% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+    transform-origin: bottom;
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(var(--rotate));
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(var(--drift), 112vh, 0)
+      rotate(calc(var(--rotate) + 420deg));
+    opacity: 0;
+  }
+}
+
+/* --- Лепесток --- */
+.petal {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  width: var(--size);
+  height: calc(var(--size) * 0.75);
+  background: radial-gradient(
+    circle at 30% 30%,
+    var(--color-blush-soft),
+    var(--color-blush) 70%
+  );
+  border-radius: 60% 10% 60% 10% / 60% 40% 60% 40%;
+  opacity: 0.8;
+  animation: petal-fall var(--duration) linear var(--delay) infinite;
+  will-change: transform, opacity;
+}
+
+/* ============================================================
+   prefers-reduced-motion — уважаем выбор пользователя
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-content {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .hero-glow,
+  .hero-scroll-line,
+  .petal {
+    animation: none;
+  }
+  .petal {
+    display: none;
+  }
+}
+/* ============================================================
+   Hero — рисование нитей и дрейф группы
+   ============================================================ */
+
+@keyframes thread-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes threads-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-25px, 15px, 0);
+  }
+}
+
+/* ============================================================
+   prefers-reduced-motion — полное отключение
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .thread,
+  .threads-group {
+    animation: none !important;
+  }
+  .thread {
+    stroke-dashoffset: 0;
+  }
+
+  .hero-bg__layer,
+  .hero-fade {
+    transform: none !important;
+  }
+
+  .js-ready .hero .hero-content > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero-scroll-line,
+  .hero-bg__glow::before {
+    animation: none !important;
+  }
+}
+/* ============================================================
+   Анимации для этапа 3
+   ============================================================ */
+
+@keyframes draw-thread {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Уважение к reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hibiol-thread {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
